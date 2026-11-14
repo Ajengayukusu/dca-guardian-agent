@@ -2,6 +2,8 @@
 
 [![Built on QoreChain](https://build.qorechain.io/badge/dca-guardian-agent.svg)](https://build.qorechain.io/p/dca-guardian-agent)
 
+**Live demo:** https://ajengayukusu.github.io/dca-guardian-agent/
+
 > **An autonomous DCA agent that cannot be drained, hijacked or talked into misbehaving —
 > because its limits live in a contract, not in its prompt.**
 > Built for the **QoreChain Developer Fest "Build Before Q-Day"** — **Post-Quantum AI Agents** category.
@@ -27,7 +29,8 @@
    npm install && npx hardhat test          # 34 passing
    cd agent && npm install && npm test      # 18 passing
    ```
-4. **See it (60 s).** Run the scripted local market (price spike → two circuit-breaker holds
+4. **See it (60 s).** Open the hosted dashboard at https://ajengayukusu.github.io/dca-guardian-agent/,
+   or run the scripted local market (price spike → two circuit-breaker holds
    → daily-cap stop) and open the dashboard it generates:   ```bash
    cd agent && npm run simulate             # writes the demo data + decision log
    cd ../frontend && npm install && npm run dev   # http://localhost:5173
