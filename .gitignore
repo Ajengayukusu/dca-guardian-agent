@@ -1,0 +1,16 @@
+node_modules/
+artifacts/
+cache/
+typechain-types/
+.env
+.env.*
+!.env.example
+.secrets/
+agent/dist/
+agent/data/*.jsonl
+agent/data/local-state.json
+agent/data/dashboard.json
+frontend/dist/
+frontend/node_modules/
+*.log
+.DS_Store

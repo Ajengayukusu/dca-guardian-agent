@@ -1,0 +1,138 @@
+{
+  "generatedAt": 1767247200,
+  "mode": "local-simulation",
+  "note": "Scripted local simulation (agent/src/simulate.ts). Amounts in whole fUSD/QOR for readability; on chain GuardianVault enforces the same rules in smallest units.",
+  "config": {
+    "intervalSec": 3600,
+    "amountPerBuy": 100,
+    "perTxCap": 100,
+    "dailyCap": 250,
+    "breakerThresholdBps": 1000,
+    "breakerWindowSec": 14400
+  },
+  "agentStatus": "active",
+  "ownerPubkeyFingerprint": "11ab9af6c4e8703e",
+  "priceSeries": [
+    {
+      "at": 1767225600,
+      "price": 2.5
+    },
+    {
+      "at": 1767229200,
+      "price": 2.53
+    },
+    {
+      "at": 1767232800,
+      "price": 2.9
+    },
+    {
+      "at": 1767236400,
+      "price": 2.88
+    },
+    {
+      "at": 1767240000,
+      "price": 2.6
+    },
+    {
+      "at": 1767243600,
+      "price": 2.62
+    }
+  ],
+  "decisions": [
+    {
+      "at": 1767225600,
+      "price": 2.5,
+      "action": "buy",
+      "amount": 100,
+      "reason": "scheduled-buy",
+      "detail": "scheduled buy of 100 (configured 100, per-tx cap 100, daily remaining 250); price 2.5, deviation 0 bps",
+      "deviationBps": 0,
+      "txHash": "0xb55c5d1f6d114ac7b5cd7f3569e50003fa4eb82cb74042e77869005e1c3a5541",
+      "source": "schedule"
+    },
+    {
+      "at": 1767229200,
+      "price": 2.53,
+      "action": "buy",
+      "amount": 100,
+      "reason": "scheduled-buy",
+      "detail": "scheduled buy of 100 (configured 100, per-tx cap 100, daily remaining 150); price 2.53, deviation 120 bps",
+      "deviationBps": 120,
+      "txHash": "0xb197a6660de05eed88a4e8c6becd4fd844a69069e51cc173a30669eb761a61fe",
+      "source": "schedule"
+    },
+    {
+      "at": 1767232800,
+      "price": 2.9,
+      "action": "hold",
+      "amount": 0,
+      "reason": "circuit-breaker",
+      "detail": "price moved 1600 bps from anchor 2.5 inside the 14400s window (threshold 1000 bps)",
+      "deviationBps": 1600,
+      "txHash": null,
+      "source": "schedule"
+    },
+    {
+      "at": 1767236400,
+      "price": 2.88,
+      "action": "hold",
+      "amount": 0,
+      "reason": "circuit-breaker",
+      "detail": "price moved 1520 bps from anchor 2.5 inside the 14400s window (threshold 1000 bps)",
+      "deviationBps": 1520,
+      "txHash": null,
+      "source": "schedule"
+    },
+    {
+      "at": 1767240000,
+      "price": 2.6,
+      "action": "buy",
+      "amount": 50,
+      "reason": "scheduled-buy",
+      "detail": "scheduled buy of 50 (configured 100, per-tx cap 100, daily remaining 50); price 2.6, deviation 0 bps",
+      "deviationBps": 0,
+      "txHash": "0x171b5a2a6cd947f2c4e493b907deb174c972b551d8311329e9fd0298db98f42e",
+      "source": "schedule"
+    },
+    {
+      "at": 1767243600,
+      "price": 2.62,
+      "action": "hold",
+      "amount": 0,
+      "reason": "daily-cap-exhausted",
+      "detail": "daily cap 250 already reached for UTC day 20454",
+      "deviationBps": 77,
+      "txHash": null,
+      "source": "schedule"
+    }
+  ],
+  "vault": {
+    "spendBalance": 4750,
+    "targetBalance": 633,
+    "spentToday": 250,
+    "executions": 3
+  },
+  "breaker": {
+    "anchorPrice": 2.6,
+    "thresholdBps": 1000,
+    "windowSec": 14400,
+    "trippedCount": 2
+  },
+  "killSwitch": {
+    "engaged": false
+  },
+  "commandDemo": [
+    {
+      "label": "owner-signed pause (nonce 1)",
+      "result": "accepted"
+    },
+    {
+      "label": "replay of the same pause command",
+      "result": "replay-or-stale-nonce"
+    },
+    {
+      "label": "pause forged with an attacker's key",
+      "result": "bad-signature"
+    }
+  ]
+}
