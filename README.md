@@ -4,6 +4,8 @@
 
 **Live demo:** https://ajengayukusu.github.io/dca-guardian-agent/
 
+**Demo video (≤ 3 min):** https://www.youtube.com/watch?v=_mKARisd3tc
+
 > **An autonomous DCA agent that cannot be drained, hijacked or talked into misbehaving —
 > because its limits live in a contract, not in its prompt.**
 > Built for the **QoreChain Developer Fest "Build Before Q-Day"** — **Post-Quantum AI Agents** category.
@@ -262,6 +264,14 @@ docs/        ABSTRACT_ACCOUNT_PLAN.md (Layer C runbook) · BOOTSTRAP.md ·
              THREAT_MODEL.md
 frontend/    Vite + React dashboard over the simulation data
 ```
+
+## Credits
+
+Built with the official QoreChain stack: `@qorechain/sdk` 0.14.0,
+`@qorechain/pqc` (ML-DSA-87 signing and verification) and `@qorechain/evm`
+(chain reads), with Hardhat for contracts and tests and viem for the agent's
+Diana executor. Fest: https://build.qorechain.io — docs:
+https://docs.qorechain.io/build-before-qday
 
 ## License
 
