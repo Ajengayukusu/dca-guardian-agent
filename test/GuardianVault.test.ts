@@ -185,6 +185,16 @@ describe("GuardianVault", function () {
     });
 
     it("rejects executions that would exceed the daily cap (UTC bucket)", async function () {
+      // Align to the start of a fresh UTC day bucket first. The vault buckets
+      // the daily cap by block.timestamp / 86400 and this test advances time
+      // by MIN_INTERVAL (1h) twice; when the suite runs late in the UTC day
+      // those advances roll the bucket over mid-test and reset the budget, so
+      // the third execution no longer reverts. That is a test-scheduling bug,
+      // not a vault bug — the rollover behaviour itself is verified by the
+      // next test. Starting just after a UTC midnight keeps every step of
+      // this test inside one bucket at any wall-clock time.
+      const now = await time.latest();
+      await time.increaseTo((Math.floor(now / 86400) + 1) * 86400 + 60);
       await vault.connect(agent).executeDca(FUSD(100));
       await time.increase(MIN_INTERVAL);
       await vault.connect(agent).executeDca(FUSD(100));
