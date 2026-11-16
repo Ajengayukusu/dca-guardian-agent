@@ -9,7 +9,7 @@
 
 - **The brief:** build a solo entry for the Post-Quantum AI Agents category
   of QoreChain's "Build Before Q-Day" fest, at a "10/10, no defects"
-  quality bar — set by the project owner (Ajeng Ayu Kusum, Indonesia).
+  quality bar — set by the project owner (Ajeng Ayu Kusuma, Indonesia).
 - **The concept choice:** an *agent-pays-invoice* design was explicitly
   rejected (two leading competitors already do exactly that); the owner
   approved a **DCA agent on an AMM** — the category's own canonical
