@@ -44,8 +44,10 @@
    full hashes in *Live deployment — Diana* below and in `deployments.testnet.json`. Two
    qualifications: the live pair is the project's own ERC-20 demo pair (the faucet's
    fUSD/fETH sit in the native `erc20:` bank-denom representation, a separate ledger from
-   the EVM ERC-20 contracts — see the deployment section), and Layer C (abstract account)
-   remains a runbook — config-verified, **not** broadcast.
+   the EVM ERC-20 contracts — see the deployment section). Layer C (abstract account)
+   was executed live on 19 Nov 2026 — account created, spending rules registered,
+   agent key linked as authenticator, a real `executeDca` performed through it, and an
+   over-limit attempt refused by the chain (full hashes below).
 
 ---
 
@@ -140,13 +142,13 @@ consumes the nonce, so captured signatures are single-use.
 | Post-Quantum AI Agents requirement | Where DCA Guardian satisfies it | Evidence |
 |---|---|---|
 | Scoped EVM window (tx / value / duration / target limits) | Agent window opened hybrid-signed with `allowedTargets = [GuardianVault]`, 48 txs, value budget, 7200 blocks | `scripts/open-scoped-window.ts` + **live**: open tx `E8906CDF…A8C19`; REST-verified `live:true`, `allowed_targets=[0xe60a81a2…B38Ae8]`, expiry height 10095090 |
-| Spending limits enforced on chain | Vault caps/interval/breaker (EVM), live at `0xe60A81a25De2115837218D59745942e94aB38Ae8` (per-tx 100, daily 250, 1 h interval, 10%/4 h breaker); abstract-account rules are the native complement (runbook, not broadcast) | `contracts/GuardianVault.sol` + 34 tests; deploy tx `0xfa009b3b…7935c`; `docs/ABSTRACT_ACCOUNT_PLAN.md` |
-| Smart-account spending rules | Abstract account: `session_based`, `update-rules` JSON mirroring the vault caps, authenticator linked with v3.2.8 possession proof, permissions `evm,amm` only | `docs/ABSTRACT_ACCOUNT_PLAN.md` §2–§4 — **runbook only, NOT executed** (see §7 of the plan) |
+| Spending limits enforced on chain | Vault caps/interval/breaker (EVM), live at `0xe60A81a25De2115837218D59745942e94aB38Ae8` (per-tx 100, daily 250, 1 h interval, 10%/4 h breaker); abstract-account rules are the native complement, **executed live 19 Nov 2026** — an over-limit authenticator attempt was refused by the chain itself (see Layer C below) | `contracts/GuardianVault.sol` + 34 tests; deploy tx `0xfa009b3b…7935c`; `docs/ABSTRACT_ACCOUNT_PLAN.md` + Layer C record below |
+| Smart-account spending rules | Abstract account `qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r` (`session_based`), spending rule `dca-daily` mirroring the vault caps (per-tx 100 QOR, daily 250 QOR, `uqor`; EVM calls allowlisted to `GuardianVault.executeDca` only), agent key linked as authenticator with v3.2.8 possession proof, permissions `evm,amm` only | **Live**: create tx `7DEC4110…B82A`; rules+link tx `153B4142…8F76F`; read back via `GET /qorechain/abstractaccount/v1/accounts/{address}/spending_rules` and `/authenticators`; `docs/ABSTRACT_ACCOUNT_PLAN.md` §7 |
 | Authenticated messaging | Owner→agent commands are ML-DSA-87-signed (domain-bound, nonce, expiry), verified with `@qorechain/pqc`; hybrid-signed transactions for all native-lane steps | `agent/src/auth.ts` + 8 auth tests (forgery, tamper, wrong-vault, expiry, replay ×2, garbage); hybrid txs in the deployment record |
 | Agent acts on testnet via hybrid-signed tx | Agent's ML-DSA key registered (first tx) and window opened hybrid-signed; agent EVM txs then run inside that window | **Live**: register tx `E27F69B5…21603` (`found:true, possession_proven:true`); first `executeDca` tx `0xe45ebd23…54da0` (block 10087908), window `used_txs` 0 → 1 |
 | Kill-switch / owner control | One-way kill, owner + ML-DSA only; rotation and withdrawal behind the same PQ gate | Vault source + kill/rotation/withdraw test groups (11 tests); live negative proof: `executeDca` from a non-agent account reverts `NotAgent` on chain (tx `0x617413fc…a6ec`). The kill-switch itself is deliberately **not** fired live — it is permanent, and the demo vault stays alive |
 
-## Live deployment — Diana (15 Nov 2026)
+## Live deployment — Diana (15 Nov 2026; Layer C added 19 Nov 2026)
 
 Machine-readable record: [`deployments.testnet.json`](deployments.testnet.json).
 Explorer: https://explore.qore.network · EVM RPC `https://evm-testnet.qore.host` · REST `https://api-testnet.qore.host`
@@ -193,9 +195,47 @@ demo tokens. A MockAMM bound to the *real* fest pair was also deployed as a wiri
 artifact (`0xd1c8ffd9…9fae`). Pointing the vault at the ERC-20 fest pair is a
 constructor-argument change once an account holds the ERC-20 form; no guard code changes.
 
-**Layer C — abstract account: NOT executed.** `docs/ABSTRACT_ACCOUNT_PLAN.md` remains a
-runbook against the live-verified module configuration; no abstract account was created
-and no spending rules were registered in this phase.
+**Layer C — abstract account: EXECUTED live, 19 Nov 2026.** The runbook in
+`docs/ABSTRACT_ACCOUNT_PLAN.md` was carried out end-to-end on Diana (via the
+`@qorechain/sdk` equivalents of the CLI sequence — same messages, hybrid-signed by the
+owner). The abstract account, its spending rule and the linked authenticator are **still
+live on chain** and can be read back at any time
+(`GET https://api-testnet.qore.host/qorechain/abstractaccount/v1/accounts/qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r`,
+`.../spending_rules`, `.../authenticators`):
+
+- **Abstract account** `qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r` (EVM form
+  `0xb8aE1Db695320d80b5D4bF3932A2d692bD7Cf2C1`), type `session_based`, owner = the vault
+  owner. Create tx `7DEC41108BD639CBF72B31CD67F03F7C96AA3A52001F9D0A99DD3734B53AB82A`
+  (code 0, height 10334027). Funded with 5 QOR by the owner (tx
+  `D93213C8FDE415383B53C4D06F24A93319ACD14847195D5C16DBD71B0ED9A497`).
+- **Spending rule + authenticator link** in one owner transaction
+  (`153B41427714E83C3C804562E65C091204E52940C59307FED3ACEF786EF8F76F`, code 0): rule
+  `dca-daily` — per-tx limit 100 QOR, daily limit 250 QOR (`uqor`), EVM calls
+  allowlisted to exactly `GuardianVault.executeDca` (`0xe60a81a2…B38Ae8/0x4c9f8a36`).
+  The agent key (`0x1151197c…Db91c7`, secp256k1, linked by its EVM address with the
+  v3.2.8 possession proof) is registered as authenticator with permissions **`evm,amm`
+  only** — no `send`, no `withdraw` — expiring 19 Dec 2026 (unix 1797623463).
+- **Live-fire proof.** The vault's agent was rotated to the abstract account
+  (owner + ML-DSA-87 `setAgent`, tx `0xa3fb056d29ffdf494dc26134355572c0192cdb92f2bc81217c51a3bf6b564e92`),
+  then the agent key authorised a real DCA execution *through* Layer C: a relayer
+  broadcast `MsgExecuteEVM` (tx `E470D13E630532D2E9A28BEC546FCB876B24F55E1FD1354A93BFEC5DA3E017F5`,
+  code 0, height 10334132) and the chain executed `executeDca(10 dgUSD)` **from the
+  abstract account** — the vault's second execution (`executionCount` 1 → 2,
+  +0.003333 dgETH acquired, authenticator nonce 0 → 1, execution decoded
+  `success=true`).
+- **The leash bites.** An in-limit value move through the same key succeeded (1 QOR,
+  tx `B7C7683A017CA542328DD0ED8CAA6B0CC6E663A0868BD70A1CF6235D0CA9FACB`; AA balance
+  5 → 4 QOR). An over-limit attempt of **150 QOR** (per-tx cap: 100 QOR) was **refused
+  by the chain**: tx `E2BF1B27A525C440F73B2CAA366246E2C6B0142E90EABFC44DBC05EA854F51CC`
+  landed code 0 with an `abstractaccount_execution_failed` event — reason, verbatim:
+  *"per-tx limit 100000000uqor exceeded (attempted 150000000): spending limit
+  exceeded"* — the nonce was consumed and **no funds moved**.
+- **Rotation back.** After the proof, the vault's agent was rotated back to the
+  original EVM-lane agent key (owner + ML-DSA-87 `setAgent`, tx
+  `0x01ae586b7985f78cc4e8ecde3fcdc0292ec2545298a770d92b2c17ed27f9144d`), restoring the
+  Layer A/B live configuration exactly (`executionCount=2` is the only lasting change
+  to the vault). The abstract account, rule and authenticator remain live, so the
+  Layer C path can be re-pointed at the vault with a single owner rotation.
 ## Run it locally
 
 ```bash
@@ -241,9 +281,13 @@ classical key alone drains nothing.
 - **MockAMM is a constant-price venue** — no liquidity curve, no slippage. The vault depends
   only on the two-function `IAmm` surface, so a real venue drops in without touching the
   guard rules.
-- **Layer C is a runbook, not a broadcast.** Its steps are written against the live-verified
-  module configuration but were not executed in this phase (§7 of the plan separates what
-  is verified from what is pending).
+- **Layer C's standing configuration is a proof, not a standing delegation.** Layer C was
+  executed live on 19 Nov 2026 (see the deployment section) and the abstract account,
+  its spending rule and the linked authenticator remain on chain — but after the
+  live-fire proof the vault's agent pointer was rotated back to the EVM-lane agent key,
+  so today the authenticator authorises nothing against the vault until the owner
+  rotates the agent again (one PQ-gated `setAgent`). The authenticator also expires on
+  19 Dec 2026 by design; a lapsed key dies on its own.
 - **The demo owner key is public.** `agent/src/keys.ts` derives the demo command-signing key
   from a fixed, published seed for deterministic tests. Production commands are signed by
   the owner's real registered key inside their wallet; the seed key protects nothing.
@@ -260,7 +304,7 @@ test/        GuardianVault.test.ts — 34 tests
 agent/       TypeScript agent: strategy · auth (ML-DSA commands) · feed
              (local / Diana) · executor (local / viem) · JSONL log; 18 tests
 scripts/     deploy.ts (Diana-only) · open-scoped-window.ts (Layer A)
-docs/        ABSTRACT_ACCOUNT_PLAN.md (Layer C runbook) · BOOTSTRAP.md ·
+docs/        ABSTRACT_ACCOUNT_PLAN.md (Layer C plan + execution record) · BOOTSTRAP.md ·
              THREAT_MODEL.md
 frontend/    Vite + React dashboard over the simulation data
 ```

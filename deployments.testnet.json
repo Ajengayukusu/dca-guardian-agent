@@ -1,1 +1,240 @@
-{"abstractAccountLayerC":{"note":"docs/ABSTRACT_ACCOUNT_PLAN.md remains a runbook written against the live-verified module config. No abstract account was created and no spending rules were registered in this phase; nothing about Layer C is claimed as live.","status":"NOT EXECUTED"},"address":"0xe60A81a25De2115837218D59745942e94aB38Ae8","agent":"0x1151197c547538804783DFA6DDd8cb8291Db91c7","agentAccount":{"cosmos":"qor1z9g3jlz5w5ugq3urm7ndmkxts2gahyw8y4xm69","evm":"0x1151197c547538804783DFA6DDd8cb8291Db91c7","evmWindow":{"allowedTargets":["0xe60a81a25de2115837218d59745942e94ab38ae8"],"blocks":"7200","expiryHeight":"10095090","maxTxs":"48","maxValueUqor":"3600000","openTxHash":"E8906CDFB2DB19ED234EC045EEA8D3ADEAE02823353DB636F1BC84F7D72A8C19","openedHeight":"10087890","restVerifiedLive":true,"signing":"hybrid (secp256k1 + ML-DSA-87)","usedTxsAfterFirstExecution":"1"},"fundAmountUqor":"5000000","fundNote":"Hybrid-signed bank send from the owner account (native lane).","fundTxHash":"910744FC5EFCA37CE1329205E4D2AF908EEC64F6ABD131B15D99946711208D51","index":4,"pqcRegisterNote":"ML-DSA-87 registration was the agent account's FIRST outgoing transaction (classical signing + proof of possession).","pqcRegisterTxHash":"E27F69B578F683F598D2E58942717A812C1196B03605D70DF8C60985A2321603","pqcVerified":{"algorithmId":1,"found":true,"possessionProven":true}},"amm":"0x7bb5bfe3b4baf711eaa6f4832296e31274b51f9d","ammDeployTx":"0xf8f2f0e32085b0f5ed422b54e2176437a3db1123a36791ac8ab5a3d78b168d16","ammInventory":"200 dgETH minted directly to the AMM","ammInventoryMintTx":"0xd679e72f7b85a11ca6488a68477a7d6760be620c68fa33ead93ad035bc22da69","ammKind":"MockAMM (constant-price demo venue from contracts/MockAMM.sol), bound to the demo pair below","ammPriceE18":"333333333333333","chainId":9800,"contract":"GuardianVault","deployTx":"0xfa009b3b0df72d864cec6d901332b46b4ac73e098176aa75fe5e8d5fedf7935c","deployedAt":"2026-11-15","deployer":"0x6E2198c7198Ce3B718DFCf38103120C8346fD28A","evmRpc":"https://evm-testnet.qore.host","explorer":"https://explore.qore.network (Testnet)","firstExecution":{"amountIn":"10000000","amountOut":"3333000000000000","block":"10087908","decision":"buy / scheduled-buy, deviation 0 bps","driver":"The project's own agent code (agent/dist): TestnetPriceFeed -> decide() -> TestnetExecutor","executeDcaTx":"0xe45ebd237c56dd79145aca297d24f9cf2fb3a110fb12512a8fd779f0ce154da0","executor":"agent account (inside its scoped window; window used_txs became 1)","vaultStateAfter":{"executionCount":"1","spendBalance":"290000000","targetBalance":"3333000000000000","totalAcquired":"3333000000000000","totalSpent":"10000000"}},"guard":{"breakerThresholdBps":"1000","breakerWindowSec":"14400","dailyCap":"250000000","minIntervalSec":"3600","perTxCap":"100000000"},"killSwitch":{"note":"killSwitch is permanent and one-way; it is covered by the local test suite (PQ gate group) and deliberately not fired on the live vault so the demo stays alive for judges.","status":"NOT exercised live (by design)"},"localTests":"npx hardhat test -> 34 passing; cd agent && npm test -> 18 passing (re-run after deployment)","negativeProof":{"block":"10087922","description":"executeDca called by the OWNER (not the agent): eth_call simulation reverts with the decoded custom error NotAgent; the broadcast transaction reverted on chain. Vault state untouched (executionCount still 1, killed=false).","error":"NotAgent","status":"reverted","tx":"0x617413fca9e75e359ffe4096b125f6b870298d2e1d458570afcaab3b48e1a6ec"},"network":"qorechain-diana","owner":"0x6E2198c7198Ce3B718DFCf38103120C8346fD28A","ownerCosmos":"qor1dcse33ce3n3mwxxleuupqvfqeq6xl552zm2ltk","ownerEvmWindowRefreshed":{"expiryHeight":"10105106","note":"Fresh 20-tx window (17280 blocks, 15000000 uqor, no allowed targets so contract creation is admitted) replacing the RescueRun-phase window, which had 5 txs left.","openTxHash":"957B7ECD7DF4475FF365D246AABE64CA50D981EB47C01EEDA7F6711C2FD38BC8","openedHeight":"10087826"},"pqcKeyStatus":"0x0000000000000000000000000000000000000A02","pqcVerify":"0x0000000000000000000000000000000000000A01","restApi":"https://api-testnet.qore.host","spendToken":"0xb2bf86ad19480242afb45e883298139e011a7ebb","spendTokenInfo":{"decimals":6,"deployTx":"0xae3db35f825184787a190d0ba402b3111f0f36870f046ce4a0947b5cdd44a7a1","kind":"Project ERC-20 from contracts/MockERC20.sol (public-mint demo token)","name":"DCA Guardian Demo USD","ownerMintAmount":"1000000000","ownerMintTx":"0x63ef9e9975bf0ca7bc03dfe755b53d23654f57daed9f30af45f25570fb5abb7b","symbol":"dgUSD"},"targetToken":"0x0ac7e20c944d07b33a2701c216a583f201bc7f89","targetTokenInfo":{"decimals":18,"deployTx":"0x54a35daa97279d87f2d7dd82355b098b1283d9e5e95ec6c0b0cad68845dd0db2","kind":"Project ERC-20 from contracts/MockERC20.sol (public-mint demo token)","name":"DCA Guardian Demo ETH","symbol":"dgETH"},"tokenRepresentationNote":"Verified live on 2026-11-15: the fest faucet credits Fest USD (0x97143B771D34ddb9130b807b135Ae675A5a963CA) and Fest ETH (0x02292293c13880a26242690eb70a0e42B8E91c28) in the NATIVE 'erc20:<addr>' bank-denom representation. The EVM-lane ERC-20 contracts are separate ledgers: ERC-20 balanceOf(owner) = 0 for both, totalSupply (1e15 fUSD / 1e24 fETH) sits with the fest distributor, no Transfer events appear in recent blocks, and @qorechain/sdk 0.14.0 exposes no conversion helper. GuardianVault is token-agnostic, so the live demo trades the project's own ERC-20 pair (above) at the same denominations the guard caps were designed around (6-decimal spend). A MockAMM bound to the REAL fest pair was also deployed as a wiring artifact: 0xd1c8ffd9f63354b95c632ef30f4010bfc8549fae (deploy tx 0x4784de7360047de24b4fffd0a5093342c0371d155dca51612ed64cc061fd1eb8). Pointing the vault at the ERC-20 fest pair is a constructor-argument change once the account holds the ERC-20 form.","vaultFunding":{"amount":"300000000","approveTx":"0x400ca068db717c37f313d99eb949037d95b1ea74e752d3050e43e78a69a101c2","depositTx":"0x6c67b86bf9c289d746227433603b1f0b5c62edf6735876d6e24664d3eb8490a2","note":"300 dgUSD deposited by the owner via GuardianVault.deposit()."}}
+{
+  "abstractAccountLayerC": {
+    "status": "EXECUTED LIVE",
+    "executedAt": "2026-11-19",
+    "note": "Executed via the @qorechain/sdk equivalents of the docs/ABSTRACT_ACCOUNT_PLAN.md CLI sequence (same messages, owner hybrid-signed). The abstract account, spending rule and authenticator remain live on Diana after the proof; the vault agent pointer was rotated back to the EVM-lane agent key at the end (see rotations).",
+    "abstractAccount": "qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r",
+    "abstractAccountEvm": "0xb8aE1Db695320d80b5D4bF3932A2d692bD7Cf2C1",
+    "accountType": "session_based",
+    "owner": "qor1dcse33ce3n3mwxxleuupqvfqeq6xl552zm2ltk",
+    "createTxHash": "7DEC41108BD639CBF72B31CD67F03F7C96AA3A52001F9D0A99DD3734B53AB82A",
+    "createHeight": "10334027",
+    "fundTxHash": "D93213C8FDE415383B53C4D06F24A93319ACD14847195D5C16DBD71B0ED9A497",
+    "fundAmountUqor": "5000000",
+    "linkTxHash": "153B41427714E83C3C804562E65C091204E52940C59307FED3ACEF786EF8F76F",
+    "linkHeight": "10334083",
+    "spendingRule": {
+      "id": "dca-daily",
+      "enabled": true,
+      "perTxLimit": "100000000",
+      "dailyLimit": "250000000",
+      "allowedDenoms": [
+        "uqor"
+      ],
+      "allowedEvmCalls": [
+        "0xe60a81a25de2115837218d59745942e94ab38ae8/0x4c9f8a36"
+      ],
+      "denomLimits": []
+    },
+    "authenticator": {
+      "scheme": "secp256k1",
+      "linkedBy": "20-byte EVM address (MetaMask-style), possession proof = EIP-191 personal_sign of the v1 link message by the agent key",
+      "pubkeyHex": "1151197c547538804783dfa6ddd8cb8291db91c7",
+      "agentEvm": "0x1151197c547538804783DFA6DDd8cb8291Db91c7",
+      "permissions": [
+        "evm",
+        "amm"
+      ],
+      "label": "dca-guardian-agent",
+      "expiryUnix": "1797623463",
+      "expiryDate": "2026-12-19",
+      "revoked": false
+    },
+    "rotations": [
+      {
+        "action": "setAgent -> abstract account (owner + ML-DSA-87, pre-flighted against pqcVerify 0x0A01)",
+        "tx": "0xa3fb056d29ffdf494dc26134355572c0192cdb92f2bc81217c51a3bf6b564e92",
+        "block": "10334128",
+        "status": "success"
+      },
+      {
+        "action": "setAgent -> back to EVM-lane agent key 0x1151197c547538804783DFA6DDd8cb8291Db91c7 (owner + ML-DSA-87)",
+        "tx": "0x01ae586b7985f78cc4e8ecde3fcdc0292ec2545298a770d92b2c17ed27f9144d",
+        "block": "10334177",
+        "status": "success"
+      }
+    ],
+    "executionThroughLayerC": {
+      "kind": "MsgExecuteEVM relayed by the owner; agent authenticator signed the v2 EVM-auth digest (EIP-191)",
+      "call": "GuardianVault.executeDca(10000000) executed FROM the abstract account",
+      "txHash": "E470D13E630532D2E9A28BEC546FCB876B24F55E1FD1354A93BFEC5DA3E017F5",
+      "code": 0,
+      "height": "10334132",
+      "decodedSuccess": true,
+      "evmGasUsed": "112658",
+      "authNonceBefore": "0",
+      "authNonceAfter": "1",
+      "vaultStateAfter": {
+        "executionCount": "2",
+        "spendBalance": "280000000",
+        "targetBalance": "6666000000000000",
+        "totalSpent": "20000000",
+        "totalAcquired": "6666000000000000"
+      }
+    },
+    "inLimitValueExecution": {
+      "kind": "MsgExecuteEVM value transfer from the abstract account to the owner",
+      "amountQor": "1",
+      "txHash": "B7C7683A017CA542328DD0ED8CAA6B0CC6E663A0868BD70A1CF6235D0CA9FACB",
+      "code": 0,
+      "height": "10334159",
+      "decodedSuccess": true,
+      "aaBalanceBeforeUqor": "5000000",
+      "aaBalanceAfterUqor": "4000000"
+    },
+    "overLimitRefusal": {
+      "kind": "MsgExecuteEVM value transfer attempt of 150 QOR against the 100 QOR per-tx cap",
+      "txHash": "E2BF1B27A525C440F73B2CAA366246E2C6B0142E90EABFC44DBC05EA854F51CC",
+      "code": 0,
+      "height": "10334162",
+      "decodedSuccess": false,
+      "failureEvent": "abstractaccount_execution_failed",
+      "reasonVerbatim": "per-tx limit 100000000uqor exceeded (attempted 150000000): spending limit exceeded",
+      "fundsMoved": false,
+      "authNonceAfter": "3"
+    },
+    "finalState": {
+      "aaBalanceUqor": "4000000",
+      "authNonce": "3",
+      "authenticatorLinked": true,
+      "rulesOnChain": 1,
+      "verifyEndpoints": [
+        "GET /qorechain/abstractaccount/v1/accounts/qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r",
+        "GET /qorechain/abstractaccount/v1/accounts/qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r/spending_rules",
+        "GET /qorechain/abstractaccount/v1/accounts/qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r/authenticators",
+        "GET /qorechain/abstractaccount/v1/auth_nonce/qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r/1151197c547538804783dfa6ddd8cb8291db91c7"
+      ]
+    }
+  },
+  "address": "0xe60A81a25De2115837218D59745942e94aB38Ae8",
+  "agent": "0x1151197c547538804783DFA6DDd8cb8291Db91c7",
+  "agentAccount": {
+    "cosmos": "qor1z9g3jlz5w5ugq3urm7ndmkxts2gahyw8y4xm69",
+    "evm": "0x1151197c547538804783DFA6DDd8cb8291Db91c7",
+    "evmWindow": {
+      "allowedTargets": [
+        "0xe60a81a25de2115837218d59745942e94ab38ae8"
+      ],
+      "blocks": "7200",
+      "expiryHeight": "10095090",
+      "maxTxs": "48",
+      "maxValueUqor": "3600000",
+      "openTxHash": "E8906CDFB2DB19ED234EC045EEA8D3ADEAE02823353DB636F1BC84F7D72A8C19",
+      "openedHeight": "10087890",
+      "restVerifiedLive": true,
+      "signing": "hybrid (secp256k1 + ML-DSA-87)",
+      "usedTxsAfterFirstExecution": "1"
+    },
+    "fundAmountUqor": "5000000",
+    "fundNote": "Hybrid-signed bank send from the owner account (native lane).",
+    "fundTxHash": "910744FC5EFCA37CE1329205E4D2AF908EEC64F6ABD131B15D99946711208D51",
+    "index": 4,
+    "pqcRegisterNote": "ML-DSA-87 registration was the agent account's FIRST outgoing transaction (classical signing + proof of possession).",
+    "pqcRegisterTxHash": "E27F69B578F683F598D2E58942717A812C1196B03605D70DF8C60985A2321603",
+    "pqcVerified": {
+      "algorithmId": 1,
+      "found": true,
+      "possessionProven": true
+    }
+  },
+  "amm": "0x7bb5bfe3b4baf711eaa6f4832296e31274b51f9d",
+  "ammDeployTx": "0xf8f2f0e32085b0f5ed422b54e2176437a3db1123a36791ac8ab5a3d78b168d16",
+  "ammInventory": "200 dgETH minted directly to the AMM",
+  "ammInventoryMintTx": "0xd679e72f7b85a11ca6488a68477a7d6760be620c68fa33ead93ad035bc22da69",
+  "ammKind": "MockAMM (constant-price demo venue from contracts/MockAMM.sol), bound to the demo pair below",
+  "ammPriceE18": "333333333333333",
+  "chainId": 9800,
+  "contract": "GuardianVault",
+  "deployTx": "0xfa009b3b0df72d864cec6d901332b46b4ac73e098176aa75fe5e8d5fedf7935c",
+  "deployedAt": "2026-11-15",
+  "deployer": "0x6E2198c7198Ce3B718DFCf38103120C8346fD28A",
+  "evmRpc": "https://evm-testnet.qore.host",
+  "explorer": "https://explore.qore.network (Testnet)",
+  "firstExecution": {
+    "amountIn": "10000000",
+    "amountOut": "3333000000000000",
+    "block": "10087908",
+    "decision": "buy / scheduled-buy, deviation 0 bps",
+    "driver": "The project's own agent code (agent/dist): TestnetPriceFeed -> decide() -> TestnetExecutor",
+    "executeDcaTx": "0xe45ebd237c56dd79145aca297d24f9cf2fb3a110fb12512a8fd779f0ce154da0",
+    "executor": "agent account (inside its scoped window; window used_txs became 1)",
+    "vaultStateAfter": {
+      "executionCount": "1",
+      "spendBalance": "290000000",
+      "targetBalance": "3333000000000000",
+      "totalAcquired": "3333000000000000",
+      "totalSpent": "10000000"
+    }
+  },
+  "guard": {
+    "breakerThresholdBps": "1000",
+    "breakerWindowSec": "14400",
+    "dailyCap": "250000000",
+    "minIntervalSec": "3600",
+    "perTxCap": "100000000"
+  },
+  "killSwitch": {
+    "note": "killSwitch is permanent and one-way; it is covered by the local test suite (PQ gate group) and deliberately not fired on the live vault so the demo stays alive for judges.",
+    "status": "NOT exercised live (by design)"
+  },
+  "localTests": "npx hardhat test -> 34 passing; cd agent && npm test -> 18 passing (re-run after deployment)",
+  "negativeProof": {
+    "block": "10087922",
+    "description": "executeDca called by the OWNER (not the agent): eth_call simulation reverts with the decoded custom error NotAgent; the broadcast transaction reverted on chain. Vault state untouched (executionCount still 1, killed=false).",
+    "error": "NotAgent",
+    "status": "reverted",
+    "tx": "0x617413fca9e75e359ffe4096b125f6b870298d2e1d458570afcaab3b48e1a6ec"
+  },
+  "network": "qorechain-diana",
+  "owner": "0x6E2198c7198Ce3B718DFCf38103120C8346fD28A",
+  "ownerCosmos": "qor1dcse33ce3n3mwxxleuupqvfqeq6xl552zm2ltk",
+  "ownerEvmWindowRefreshed": {
+    "expiryHeight": "10105106",
+    "note": "Fresh 20-tx window (17280 blocks, 15000000 uqor, no allowed targets so contract creation is admitted) replacing the RescueRun-phase window, which had 5 txs left.",
+    "openTxHash": "957B7ECD7DF4475FF365D246AABE64CA50D981EB47C01EEDA7F6711C2FD38BC8",
+    "openedHeight": "10087826"
+  },
+  "pqcKeyStatus": "0x0000000000000000000000000000000000000A02",
+  "pqcVerify": "0x0000000000000000000000000000000000000A01",
+  "restApi": "https://api-testnet.qore.host",
+  "spendToken": "0xb2bf86ad19480242afb45e883298139e011a7ebb",
+  "spendTokenInfo": {
+    "decimals": 6,
+    "deployTx": "0xae3db35f825184787a190d0ba402b3111f0f36870f046ce4a0947b5cdd44a7a1",
+    "kind": "Project ERC-20 from contracts/MockERC20.sol (public-mint demo token)",
+    "name": "DCA Guardian Demo USD",
+    "ownerMintAmount": "1000000000",
+    "ownerMintTx": "0x63ef9e9975bf0ca7bc03dfe755b53d23654f57daed9f30af45f25570fb5abb7b",
+    "symbol": "dgUSD"
+  },
+  "targetToken": "0x0ac7e20c944d07b33a2701c216a583f201bc7f89",
+  "targetTokenInfo": {
+    "decimals": 18,
+    "deployTx": "0x54a35daa97279d87f2d7dd82355b098b1283d9e5e95ec6c0b0cad68845dd0db2",
+    "kind": "Project ERC-20 from contracts/MockERC20.sol (public-mint demo token)",
+    "name": "DCA Guardian Demo ETH",
+    "symbol": "dgETH"
+  },
+  "tokenRepresentationNote": "Verified live on 2026-11-15: the fest faucet credits Fest USD (0x97143B771D34ddb9130b807b135Ae675A5a963CA) and Fest ETH (0x02292293c13880a26242690eb70a0e42B8E91c28) in the NATIVE 'erc20:<addr>' bank-denom representation. The EVM-lane ERC-20 contracts are separate ledgers: ERC-20 balanceOf(owner) = 0 for both, totalSupply (1e15 fUSD / 1e24 fETH) sits with the fest distributor, no Transfer events appear in recent blocks, and @qorechain/sdk 0.14.0 exposes no conversion helper. GuardianVault is token-agnostic, so the live demo trades the project's own ERC-20 pair (above) at the same denominations the guard caps were designed around (6-decimal spend). A MockAMM bound to the REAL fest pair was also deployed as a wiring artifact: 0xd1c8ffd9f63354b95c632ef30f4010bfc8549fae (deploy tx 0x4784de7360047de24b4fffd0a5093342c0371d155dca51612ed64cc061fd1eb8). Pointing the vault at the ERC-20 fest pair is a constructor-argument change once the account holds the ERC-20 form.",
+  "vaultFunding": {
+    "amount": "300000000",
+    "approveTx": "0x400ca068db717c37f313d99eb949037d95b1ea74e752d3050e43e78a69a101c2",
+    "depositTx": "0x6c67b86bf9c289d746227433603b1f0b5c62edf6735876d6e24664d3eb8490a2",
+    "note": "300 dgUSD deposited by the owner via GuardianVault.deposit()."
+  },
+  "secondExecution": {
+    "note": "Executed through Layer C (abstract account) on 2026-11-19; see abstractAccountLayerC.executionThroughLayerC. The first execution (15 Nov 2026) ran through Layer A/B; the vault agent pointer was restored to the Layer A/B agent afterwards.",
+    "amountIn": "10000000",
+    "amountOut": "3333000000000000",
+    "block": "10334132",
+    "executor": "abstract account qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r (agent authenticator = idx4 key) via relayed MsgExecuteEVM",
+    "executeDcaTx": "E470D13E630532D2E9A28BEC546FCB876B24F55E1FD1354A93BFEC5DA3E017F5",
+    "vaultStateAfter": {
+      "executionCount": "2",
+      "spendBalance": "280000000",
+      "targetBalance": "6666000000000000",
+      "totalAcquired": "6666000000000000",
+      "totalSpent": "20000000"
+    }
+  }
+}

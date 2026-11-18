@@ -1,11 +1,10 @@
 # Abstract-Account Plan — the native-lane leash (Layer C)
 
-> Status: **plan, ready to execute at deployment time.** Everything in this
-> document is written against the live Diana configuration verified on
-> 15 Nov 2026 (see §1). The steps below have **not** been broadcast yet —
-> they run in the bootstrap sequence (README → *Bootstrap order*) once the
-> project accounts are funded and registered. What *has* been tested locally
-> is listed honestly in §7.
+> Status: **EXECUTED on Diana, 19 Nov 2026** (see the 19 Nov addendum below
+> and §7). Everything in this document is written against the live Diana
+> configuration verified on 15 Nov 2026 (see §1). The steps below were
+> broadcast via the `@qorechain/sdk` equivalents of the CLI commands, with
+> the results recorded in §7 and in `deployments.testnet.json`.
 >
 > **Addendum — 15 Nov 2026, after the live deployment phase:** Layers A and B
 > are now live on Diana (agent ML-DSA key registered, scoped window open with
@@ -15,6 +14,23 @@
 > spending rules registered, no authenticator linked. This document remains a
 > runbook; the §2–§6 sequence is the remaining work for this layer, and §7's
 > status table stands as written.
+>
+> **Addendum — 19 Nov 2026: Layer C EXECUTED.** The §2–§6 sequence was carried
+> out on Diana via the `@qorechain/sdk` equivalents of the CLI commands (same
+> messages, hybrid-signed by the owner; the authenticator is the agent key
+> linked secp256k1-by-EVM-address, the SDK's MetaMask-style form of §4).
+> Abstract account `qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r` created
+> (tx `7DEC4110…B82A`), funded with 5 QOR (tx `D93213C8…A497`), rule
+> `dca-daily` + authenticator (`evm,amm`, possession proof, 30-day expiry)
+> installed in one owner tx (`153B4142…8F76F`). A real `executeDca` was then
+> executed *through* the account (relayed `MsgExecuteEVM` tx `E470D13E…17F5`,
+> decoded `success=true`, vault `executionCount` 1 → 2), an in-limit 1 QOR
+> value move succeeded (tx `B7C7683A…FACB`), and a 150 QOR over-limit attempt
+> was refused by the chain with a `spending limit exceeded`
+> `abstractaccount_execution_failed` event (tx `E2BF1B27…1CC`). Afterwards the
+> vault's agent was rotated back to the EVM-lane key (tx `0x01ae586b…44d`);
+> the account, rule and authenticator remain live. Full record: README →
+> *Live deployment — Diana* and `deployments.testnet.json`.
 
 ## 0. Why this layer exists
 
@@ -176,4 +192,4 @@ Verify after each step (read-only, no window needed):
 | Possession-proof text & v3.2.8 rule semantics (§3–§4) | From the v3.2.8 chain/SDK documentation & SDK 0.14.0 sources |
 | GuardianVault enforces caps/breaker/kill on the EVM lane | **Tested locally** — 34 Hardhat tests passing |
 | Agent strategy + authenticated commands | **Tested locally** — 18 node tests passing |
-| The CLI sequence in §2–§6 broadcast on Diana | **Not yet executed** — runs in the bootstrap phase; this document is the runbook, not a claim |
+| The §2–§6 sequence broadcast on Diana | **Executed 19 Nov 2026** via the SDK equivalents of the CLI commands — create `7DEC4110…B82A`, fund `D93213C8…A497`, rules+link `153B4142…8F76F`, execution through the account `E470D13E…17F5` (success), over-limit refusal `E2BF1B27…1CC`; all hashes verified against REST after broadcast |
