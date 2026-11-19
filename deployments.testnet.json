@@ -104,6 +104,63 @@
         "GET /qorechain/abstractaccount/v1/accounts/qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r/authenticators",
         "GET /qorechain/abstractaccount/v1/auth_nonce/qor1hzhpmd54xgxcpdw5huun9gkkj27heukp86cg7r/1151197c547538804783dfa6ddd8cb8291db91c7"
       ]
+    },
+    "upgradeRound_2026-11-19": {
+      "purpose": "Upgrade round (19 Nov 2026): prove Layer C is repeatable \u2014 two further real executeDca executions through the abstract account plus a second over-limit refusal, ending with the agent rotated back to the Layer A/B key.",
+      "rotateToAaTx": "0x3d6fd138e956fbe28e3dccbe32edab4dc448de155fb161b19c2f8c6b9581c266",
+      "rotateToAaBlock": 10364336,
+      "execution2": {
+        "msgExecuteEvmTx": "3E255D8755FBD95B8D2561973C2ED0B0121D740187E6A704BEC166CFA86607CE",
+        "height": 10364339,
+        "code": 0,
+        "decodedSuccess": true,
+        "executionCountAfter": "3",
+        "authNonceBefore": "3"
+      },
+      "tooSoonAttempts": [
+        {
+          "tx": "BA1DF4976D482F64E359098A5E505CA5859B6ACFFF19138C348BE1093178D173",
+          "height": 10364342,
+          "decodedSuccess": false,
+          "reason": "vault minIntervalSec=3600 (TooSoon) \u2014 attempted inside 1 h of the previous execution; auth nonce 4 consumed, no funds moved"
+        },
+        {
+          "tx": "707B2A57232BB43D996B70939795E18CCE87D5DF5B249BD9DF3E7BA7B5D2007C",
+          "height": 10364924,
+          "decodedSuccess": false,
+          "reason": "same TooSoon guard; revert data carried next-allowed timestamp 1795079425"
+        }
+      ],
+      "refusal2": {
+        "tx": "0D4566A3283BDDF6631AA04D882A93F78356EE074A01FE4F5E603D3F6779A83B",
+        "event": "abstractaccount_execution_failed",
+        "reason": "per-tx limit 100000000uqor exceeded (attempted 150000000): spending limit exceeded",
+        "aaBalanceUnchanged": "4000000 uqor"
+      },
+      "execution3": {
+        "msgExecuteEvmTx": "5F5CADD4550171595ACDCDD07B1C7B3EB00EB2CB145CD0440077B8BCE0796F92",
+        "height": 10366203,
+        "code": 0,
+        "decodedSuccess": true,
+        "executionCountAfter": "4",
+        "authNonceBefore": "7",
+        "note": "executed after the vault's 1-hour interval had genuinely elapsed (chain time 1795079484 > next-allowed 1795079425)"
+      },
+      "rotateBackTx": "0x3adda0b2f9a5de4d4aff53a5fc0eeb3ebd2264a9bb5e7d1c005af5cc15500256",
+      "rotateBackBlock": 10366206,
+      "finalState": {
+        "agent": "0x1151197c547538804783DFA6DDd8cb8291Db91c7",
+        "executionCount": "4",
+        "spentTotal": "40000000",
+        "acquiredTotal": "13332000000000000",
+        "aaBalanceUqor": "4000000",
+        "aaAccountIntact": "session_based, spending_rules_count 1, authenticators_count 1 (REST read-back)"
+      },
+      "layerCTotals": {
+        "successfulExecutions": 3,
+        "overLimitRefusals": 2,
+        "tooSoonReverts": 2
+      }
     }
   },
   "address": "0xe60A81a25De2115837218D59745942e94aB38Ae8",

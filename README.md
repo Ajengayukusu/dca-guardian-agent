@@ -236,6 +236,25 @@ live on chain** and can be read back at any time
   Layer A/B live configuration exactly (`executionCount=2` is the only lasting change
   to the vault). The abstract account, rule and authenticator remain live, so the
   Layer C path can be re-pointed at the vault with a single owner rotation.
+- **Repeated live fire — upgrade round, 19 Nov 2026.** The rotation → execution →
+  rotation-back cycle was run **twice more** the same day, proving Layer C is a
+  repeatable path, not a one-off: rotate to the abstract account (tx
+  `0x3d6fd138…c266`), execution #2 through Layer C (`MsgExecuteEVM`
+  `3E255D8755FBD95B8D2561973C2ED0B0121D740187E6A704BEC166CFA86607CE`, code 0,
+  decoded `success=true`, `executionCount` 2 → 3), a **second over-limit refusal**
+  (150 QOR attempt, tx
+  `0D4566A3283BDDF6631AA04D882A93F78356EE074A01FE4F5E603D3F6779A83B`, same
+  `abstractaccount_execution_failed` per-tx-limit reason, AA balance unmoved),
+  execution #3 through Layer C (`MsgExecuteEVM`
+  `5F5CADD4550171595ACDCDD07B1C7B3EB00EB2CB145CD0440077B8BCE0796F92`, code 0,
+  decoded `success=true`, `executionCount` 3 → 4), then rotation back to the
+  original agent key (tx `0x3adda0b2…0256`). Two further attempts inside the
+  vault's own 1-hour minimum interval were reverted by the vault itself
+  (`TooSoon`, carrying the next-allowed timestamp) — the interval guard
+  demonstrably applies to the Layer C path too. Final read-back: agent =
+  `0x1151197c…Db91c7`, `executionCount=4`, AA balance 4 QOR, rule and
+  authenticator intact. Layer C totals: **3 successful executions, 2 chain
+  refusals of over-limit attempts**.
 ## Run it locally
 
 ```bash

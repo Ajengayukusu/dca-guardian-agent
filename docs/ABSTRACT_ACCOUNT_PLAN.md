@@ -193,3 +193,25 @@ Verify after each step (read-only, no window needed):
 | GuardianVault enforces caps/breaker/kill on the EVM lane | **Tested locally** — 34 Hardhat tests passing |
 | Agent strategy + authenticated commands | **Tested locally** — 18 node tests passing |
 | The §2–§6 sequence broadcast on Diana | **Executed 19 Nov 2026** via the SDK equivalents of the CLI commands — create `7DEC4110…B82A`, fund `D93213C8…A497`, rules+link `153B4142…8F76F`, execution through the account `E470D13E…17F5` (success), over-limit refusal `E2BF1B27…1CC`; all hashes verified against REST after broadcast |
+
+---
+
+**Addendum 2 — 19 Nov 2026 (upgrade round): Layer C repeated.** The full
+§5 rotation → execution → rotation-back cycle was run twice more on the
+same day. Execution #2 through the account: `MsgExecuteEVM`
+`3E255D8755…6F92`-predecessor `3E255D8755FBD95B8D2561973C2ED0B0121D740187E6A704BEC166CFA86607CE`
+(code 0, decoded `success=true`, vault `executionCount` 2 → 3). A second
+150 QOR over-limit attempt was refused by the chain with the same
+`abstractaccount_execution_failed` per-tx-limit event (tx
+`0D4566A3283BDDF6631AA04D882A93F78356EE074A01FE4F5E603D3F6779A83B`; AA
+balance unmoved). Execution #3: `MsgExecuteEVM`
+`5F5CADD4550171595ACDCDD07B1C7B3EB00EB2CB145CD0440077B8BCE0796F92`
+(code 0, decoded `success=true`, `executionCount` 3 → 4), executed only
+after the vault's 1-hour `minIntervalSec` had genuinely elapsed — two
+attempts inside the interval were reverted by the vault's `TooSoon`
+guard (txs `BA1DF497…A173`, `707B2A57…076F`), which also proves the
+vault-side interval applies to the Layer C path. The agent was then
+rotated back to the EVM-lane key (tx `0x3adda0b2…0256`); final read-back:
+agent `0x1151197c…Db91c7`, `executionCount=4`, AA balance 4 QOR, rule
+and authenticator intact (REST). Layer C totals: **3 successful
+executions, 2 over-limit refusals, 2 TooSoon reverts.**
