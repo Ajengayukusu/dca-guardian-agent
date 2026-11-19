@@ -199,7 +199,7 @@ Verify after each step (read-only, no window needed):
 **Addendum 2 — 19 Nov 2026 (upgrade round): Layer C repeated.** The full
 §5 rotation → execution → rotation-back cycle was run twice more on the
 same day. Execution #2 through the account: `MsgExecuteEVM`
-`3E255D8755…6F92`-predecessor `3E255D8755FBD95B8D2561973C2ED0B0121D740187E6A704BEC166CFA86607CE`
+`3E255D8755FBD95B8D2561973C2ED0B0121D740187E6A704BEC166CFA86607CE`
 (code 0, decoded `success=true`, vault `executionCount` 2 → 3). A second
 150 QOR over-limit attempt was refused by the chain with the same
 `abstractaccount_execution_failed` per-tx-limit event (tx
