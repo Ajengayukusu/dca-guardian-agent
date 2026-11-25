@@ -4,7 +4,7 @@
 
 **Live demo:** https://ajengayukusu.github.io/dca-guardian-agent/
 
-**Demo video (≤ 3 min):** https://www.youtube.com/watch?v=QlBf2PDtdBY
+**Demo video (≤ 3 min):** https://www.youtube.com/watch?v=WAwzokh9-Jg
 
 > **An autonomous DCA agent that cannot be drained, hijacked or talked into misbehaving —
 > because its limits live in a contract, not in its prompt.**
